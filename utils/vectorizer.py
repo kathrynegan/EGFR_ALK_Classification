@@ -55,7 +55,7 @@ class Vectorizer:
 			pre (str) : regex to capture before pattern
 			post (str) : regex to capture after pattern
 		Returns:
-			dict str:regex: key mapped to regex
+			dict (str:regex): key mapped to regex
 		"""
 		home = os.path.dirname(os.path.normpath(os.path.realpath(__file__)))
 		file = os.path.join(home, 'patterns', file_name)
@@ -293,8 +293,7 @@ class Vectorizer:
 			prev = curr
 
 	def _test_mentions(self):
-		""" Adds number of test mentions to vector. """
-		test_mentions = self.text.count('TEST_INSTANCE')
+		""" Adds test mentions feature to vector. """
 		self.vector.append('COUNT_TEST_INSTANCE')
-		if not test_mentions:
+		if not self.text.count('TEST_INSTANCE'):
 			self.vector.append('NO_KEYWORD_IN_TEXT')

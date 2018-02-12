@@ -38,10 +38,20 @@ class GenTestClassifier:
 			self.algorithms[algorithm] = model
 
 	def classify(self, vector):
-		""" Returns the label for each of the charactertistics results reported,
+		""" Returns the label for each of results reported,
 		results positive, and method of test for the given vector.
 		Args:
-			vector """
+			vector (list of str) : list of features as strings in vector
+		Returns:
+			reported (str) :
+				'Results Reported' if results of a gen test were stated in this path report
+				'Not Reported' otherwise
+			result (str) :
+				'Positive' if the results were a positive test
+				'Negative' if the results were a negative test
+				'N/A' if no results were reported or if the results were ambiguous
+			method (str) : the test method that was used to obtain results (e.g. FISH)
+		"""
 		reported, result, method = 'Not Reported', 'N/A', 'N/A'
 		if 'NO_KEYWORD_IN_TEXT' in vector:
 			return reported, result, method
@@ -53,7 +63,13 @@ class GenTestClassifier:
 		return reported, result, method
 
 	def _classify(self, algorithm, vector):
-		""" classify2 instances for given algorithm and output results. """
+		""" Returns the label for this vector given the algorithm.
+		Args:
+			algorithm (str) : name of algorithm
+			vector (list of str) : list of features as strings in vector
+		Returns:
+			str : instance label
+		"""
 		# instantiate empty numinstances x numfeatures matrix
 		model = self.algorithms[algorithm]
 		matrix = dok_matrix((1, model.num_features), dtype=np.float64)
@@ -69,6 +85,14 @@ class GenTestClassifier:
 		return output
 
 	def _translate_output(self, is_method, output):
+		""" Converts the output of the SVM to a meaningful label.
+		Args:
+			is_method (bool) :
+				True if the SVM output is for a test method, False otherwise
+			output (int) : output of SVM
+		Returns:
+			str : SVM output mapped to label
+		"""
 		method_mapping = {
 			0: 'Mutational Analysis',
 			1: 'IHC',
