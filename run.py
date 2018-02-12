@@ -8,7 +8,11 @@ Copyright (c) 2015-2017 Fred Hutchinson Cancer Research Center
 Licensed under the Apache License, Version 2.0:
 http://www.apache.org/licenses/LICENSE-2.0
 
-EDITED BY: Kathryn Egan
+Refactored by: kathrynegan
+
+run.py was adapted from the following module(s) in esilgard's master branch:
+svm_pipeline.py
+final_output.py
 """
 import os
 import sys
@@ -74,7 +78,7 @@ def get_dirs():
 		os.mkdir(output_dir)
 	except OSError:
 		pass
-	flag = '_' + rd_file if rd_subset else ''
+	flag = '_' + rd_file if rd_subset else ''  # compile flag to mark output type
 	flag += '_' + pt_file if pt_subset else ''
 	flag += '_' + skip_file if skip_set else ''
 	flag = 'all' if not flag else flag

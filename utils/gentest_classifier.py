@@ -1,6 +1,17 @@
-"""
-CREATED BY: Kathryn Egan
+# -*- coding: utf-8 -*-
 
+"""
+author@esilgard
+
+Copyright (c) 2015-2017 Fred Hutchinson Cancer Research Center
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+Refactored by: kathrynegan
+
+gentest_classifier.py was adapted from the following module(s) in esilgard's master branch:
+make_arrays.py
+decoder.py
 """
 import os
 import numpy as np
@@ -77,6 +88,8 @@ class GenTestClassifier:
 
 
 class Model:
+	""" Tiny class to conveniently store a model and its associated data. """
+
 	def __init__(self):
 		self.model = None
 		self.mapping = {}

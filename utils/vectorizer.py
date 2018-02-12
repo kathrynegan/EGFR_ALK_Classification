@@ -1,6 +1,16 @@
-"""
-CREATED BY: Kathryn Egan
+# -*- coding: utf-8 -*-
 
+"""
+author@esilgard
+
+Copyright (c) 2015-2017 Fred Hutchinson Cancer Research Center
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+Refactored by: kathrynegan
+
+vectorizer.py was adapted from the following module(s) in esilgard's master branch:
+make_vectors.py
 """
 import re
 import os
@@ -8,7 +18,7 @@ import json
 
 
 class Vectorizer:
-	""" Stores data and behavior for cleaning and processing a
+	""" Stores data and behavior for cleaning, processing, and vectorizing a
 	pathology report as part of  EGFR/ALK classification. """
 
 	def __init__(self):
@@ -142,9 +152,10 @@ class Vectorizer:
 		return text
 
 	def _cytology_report(self):
-		""" Adds whether report is cytology related.
-		Cytology reports unlikely to have reliable tests. """
-		result = 1 if self.cytology_pattern.search(self.text) else 0
+		""" Adds cytology report feature to vector. All reports receive this
+		feature even if they are not cytology related due to quirk in original
+		classifier code (see commented line for deprecated version). """
+		# result = 1 if self.cytology_pattern.search(self.text) else 0
 		self.vector.append('CYTO_RELATED_REPORT')
 
 	def _positive_test(self):
@@ -200,9 +211,10 @@ class Vectorizer:
 		self.vector.append('OTHER_ACC_NUM_IN_TEXT')
 
 	def _insufficient(self):
-		""" Adds presence of insufficient samples to
-		vector EVEN when test name isn't mentioned. """
-		result = 1 if self.insufficient_pattern.search(self.text) else 0
+		""" Adds insufficient feature to vector. All reports receive this
+		feature even if they are sufficient due to quirk in original
+		classifier code (see commented line for deprecated version). """
+		# result = 1 if self.insufficient_pattern.search(self.text) else 0
 		self.vector.append('INSUFFICIENT')
 
 	def _substitute(self):
