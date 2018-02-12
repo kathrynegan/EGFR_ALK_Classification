@@ -1,6 +1,8 @@
 # EGFR_ALK_Classification
 ===========================
 
+Updated by kathrynegan
+
 A hybrid model to classify EGFR and ALK test use, results, and methods from free text pathology reports 
 
 ### This system classifies EGFR and ALK molecular tests from the free text of pathology reports.
@@ -10,7 +12,7 @@ Dependencies = python 2.7.13; scipy and sklearn 0.18.1
 
 #### There are four principal algorithms
 -------------------------------------
-each needs its own folder to house svm models and feature sets as well as the output classification of negative and positive instances
+each needs its own folder to house svm models and feature sets
 
 * __reported__: this is a combination of a keyword filter and an SVM that classifies all reports in the input as either "Reported" or "NotReported" for each test
     (for the purposes of sensitivity/specificity metrics and for consumption by downstream algorithms, "Reported" is considered a positive classification and "NotReported" a negative)
@@ -25,16 +27,11 @@ each needs its own folder to house svm models and feature sets as well as the ou
     (for the purposes of sensitivity/specificity metrics and for consumption by downstream algorithms, the standard testing methodology ("MutationalAnalysis" for EGFR and "FISH" for ALK) is considered a positive classification and "OTHER" a negative)
     
 
-- make_vectors.py is a standalone script that creates individual feature vectors for each report&test instance
-    this  will need to be modified to include the name/location of the input file (now expected to be in the "Input" sub directory)
-    also the input file is expected to be a tab delimited text file, the column indices of the text, report identifiers, and accession numbers will need to be manually edited. (see TEXT_COL, REPORT_ID_COL, ACC_NUM_COL). All instances will have one single feature vector per molecular test (although they will have multiple arrays created in the pipeline; one per algorithm)
+- run.py is the main script to run the end to end classification pipeline
+- utils/gentest_classifier.py reads in models and feature mappings, uses the svm models learned in training to classify one instance at a time
+- utils/vectorizer.py creates a vector for a given pathology report
 
-- svm_pipeline.py is the main script to run the end to end classification pipeline
-    - vector_to_array.py creates arrays based on feature sets (not included in the public repository) from the training set; one array   per instance, per test, per algorithm
-    - decoder.py uses the svm models learned in training (not included in the public repository) to classify each instance
-    - final_output.py aggregates all the individual classifications to produce one label per report instance (e.g. EGFR Negative by MutationalAnalysis)
-
-Currently the vector creation and classification pipeline are run for one test at a time, the "TEST_NAME" will have to be manually edited in both make_vectors.py, as well as svm_pipeline.py
+Vector creation and classification pipeline are run for both EGFR and ALK tests
 
 
 #### The References folder contains
