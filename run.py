@@ -17,7 +17,7 @@ final_output.py
 import os
 import sys
 import csv
-from utils.gen_test_classifier import GenTestClassifier
+from utils.gentest_classifier import GenTestClassifier
 from utils.vectorizer import Vectorizer
 
 
@@ -65,13 +65,10 @@ def get_dirs():
 	dirs = {}
 	home = os.path.dirname(os.path.normpath(os.path.realpath(__file__)))
 	# get input file
-	input_dir = os.path.join(home, 'input')
 	try:
-		input_file = os.listdir(input_dir)[0]
+		dirs['input'] = sys.argv[1]
 	except IndexError:
-		sys.stderr.write('Input file not found.\nExiting...\n')
-		sys.exit()
-	dirs['input'] = os.path.join(input_dir, input_file)
+		raise IndexError('Provide path to input file as first argument.')
 	# establish output dir and files
 	output_dir = os.path.join(home, 'output')
 	try:
